@@ -1,0 +1,73 @@
+<html>
+<head>
+  <title></title>
+  <style>
+    #main {
+	background: #EEE;
+	height: 100%;
+	width: 100%;
+    }
+    .nameSpace {
+      width: 18%;
+      float: left;
+      border: 1px dashed #000;
+      font: 30px sans-serif;
+      text-align: center;
+      padding: 60px 0 60px 0;
+    }
+    .red {
+      background: red;
+    }
+    .blue {
+      background: blue;
+    }
+    .yellow {
+      background: yellow;
+    }
+    .lost {
+      background: #444;
+    }
+  </style>
+</head>
+<body>
+  <div id="main">
+  </div>
+
+  <script>
+  function shuffle(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    return array;
+  }
+    var allNames = shuffle(["africa","agent","air","alien","alps","amazon","ambulance","america","angel","antarctica","apple","arm","atlantis","aztec","back","band","bank","bark","battery","beach","beat","bed","beijing","belt","berlin","bermuda","berry","block","board","bomb","bond","boom","bottle","bow","box","bridge","buffalo","bug","calf","canada","cap","capital","car","carrot","casino","cell","centaur","center","chair","change","check","chick","china","chocolate","church","circle","cloak","club","code","comic","compound","contract","copper","cover","crane","crash","crave","cricket","cross","crown","dance","date","day","death","deck","degree","diamond","dice","dinosaur","doctor","dog","draft","dress","drill","drop","dwarf","eagle","eat","egypt","engine","england","europe","eye","fair","fall","fan","fence","field","figure","file","film","fire","fish","flute","fly","foot","force","forest","fork","fort","france","gas","ghost","giant","glass","glove","gold","grace","grass","greece","green","ham","hawk","head","heart","helecopter","himalayas","hole","hollywood","honey","hood","hook","horn","horse","horseshoe","hospital","hotel","ice","ice cream","india","iron","ivory","jack","jam","jet","jupeter","jupiter","kangaroo","ketchup","key","kid","king","kiwi","knife","knight","lab","lap","laser","lawyer","lead","lemon","limousine","line","link","lion","litter","loch ness","lock","log","london","mail","mammoth","maple","march","mass","match","mercury","microscope","millionaire","mint","model","mole","moon","moscow","mouth","mug","needle","net","new york","night","ninja","note","novel","nurse","nut","octopus","oil","olive","olympus","opera","orange","palm","pants","paper","park","part","paste","phoenix","piano","pie","pilot","pipe","pistol","pitch","plastic","platypus","play","plot","poet","point","poison","pool","port","press","princess","queen","racket","ray","revolution","ring","robin","robot","rock","rome","root","rose","roulette","row","ruler","school","scorpion","screen","seal","server","shadow","shakespear","shark","ship","shoe","shot","sink","slip","smuggler","snow","snowman","soldier","sound","space","spike","spring","square","stadium","staff","star","state","stick","stock","stream","string","sub","suit","swing","switch","table","tablet","tap","teacher","telescope","temple","theater","thief","tie","time","tokyo","tooth","torch","tower","track","triangle","trip","trunk","tube","turkey","undertaker","unicorn","vacuum","van","wake","wall","war","washer","washington","water","wave","web","well","whale","whip","wind","worm","yard"]);
+    var mainDiv = document.getElementById("main");
+    var index;
+    for (index = 0; index < 25 ; index++) {
+      var nameElement = document.createTextNode(allNames[index]);
+      var nameDiv = document.createElement("div");
+      nameDiv.appendChild(nameElement);
+      nameDiv.className = "nameSpace";
+      nameDiv.onclick = function(ev) {
+	var el = ev.currentTarget;
+	if ("nameSpace" == el.className) {
+          el.className = "nameSpace red";
+        } else if (el.className.indexOf("red") >= 0) {
+          el.className = "nameSpace blue";
+        } else if (el.className.indexOf("blue") >= 0) {
+          el.className = "nameSpace yellow";
+        } else if (el.className.indexOf("yellow") >= 0) {
+          el.className = "nameSpace lost";
+        } else if (el.className.indexOf("lost") >= 0) {
+          el.className = "nameSpace";
+        }
+      };
+      mainDiv.appendChild(nameDiv);
+    }
+    mainDiv.appendChild(document.createElement("div"));
+  </script>
+</body>
+</html>

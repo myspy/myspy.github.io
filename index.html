@@ -7,6 +7,12 @@
 	height: 100%;
 	width: 100%;
     }
+    #gameboard.red {
+      border: 5px solid red;
+    }
+    #gameboard.blue {
+      border: 5px solid blue;
+    }
     .nameSpace {
       width: 18%;
       float: left;
@@ -102,6 +108,20 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     return hash;
   }
 
+  function getFirstTeam(assignments) {
+    var zeros = 0; 
+    for (var i = 0; i < assignments.length; i++) {
+      if (assignments[i] === 0) {
+        zeros++;
+      }
+    }
+    if (zeros === 9) {
+      return ASSIGNMENT_MAP[0];
+    } else {
+      return ASSIGNMENT_MAP[1];
+    }
+  }
+
   // Game state string is VERSION|wordindexlist|assignmentindexlist
   function getGameState(hash) {
     var result = hash.split("#")[1].split("|");
@@ -122,7 +142,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     return {'words': indexes, 'assignments': assignments};
   }
 
-
+    var gameBoardDiv = document.getElementById("gameboard");
     var wordArrayMap = [];
     var assignments = [];
     var isKey = false;
@@ -131,13 +151,12 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       wordArrayMap = gameState['words'];
       assignments = gameState['assignments'];
       isKey = true;
+      gameBoardDiv.className = getFirstTeam(assignments);
     } else {
       wordArrayMap = getRandomIndexes(allNames.length);
       assignments = getRandomAssignments();
     }
 
-
-    var gameBoardDiv = document.getElementById("gameboard");
     var index;
     for (index = 0; index < 25 ; index++) {
       var nameElement = document.createTextNode(allNames[wordArrayMap[index]]);

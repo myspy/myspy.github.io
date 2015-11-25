@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Spy This!</title>
+  <title></title>
   <style>
     #gameboard {
 	background: #EEE;
@@ -32,6 +32,14 @@
     }
     .selected.lost {
       background: #444;
+    }
+    #qrcode.shown{
+      position: fixed;
+      left: 50px;
+      top: 50px;
+    }
+    #qrcode.hidden {
+      display: none;
     }
   </style>
   <script>
@@ -151,7 +159,21 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     if (!isKey) {
       var qrcodeElement = document.createElement("div")
       new QRCode(qrcodeElement, window.location.href + "#" + getStateHash(wordArrayMap, assignments));
+      qrcodeElement.title = "";
+      qrcodeElement.id = "qrcode";
+      qrcodeElement.className = "hidden";
       gameBoardDiv.appendChild(qrcodeElement);
+
+      var viewText = document.createTextNode("Spoiler Link"); 
+      var viewLink = document.createElement("a");
+      viewLink.appendChild(viewText);
+      viewLink.onmouseover = function() {
+        qrcodeElement.className = "shown";
+      };
+      viewLink.onmouseout = function() {
+        qrcodeElement.className = "hidden";
+      };
+      document.body.appendChild(viewLink);
     }
   </script>
 </body>

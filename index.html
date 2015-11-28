@@ -5,9 +5,15 @@
   <title></title>
   <style>
     #gameboard {
-	background: #EEE;
-	height: 100%;
-	width: 100%;
+      background: #EEE;
+      height: 100%;
+      width: 100%;
+    }
+    table, th, td {
+      text-align: center;
+      border: 1px dashed black;
+      border-collapse: collapse;
+      table-layout: fixed;
     }
     #gameboard.red {
       border: 5px solid red;
@@ -16,12 +22,7 @@
       border: 5px solid blue;
     }
     .nameSpace {
-      width: 18%;
-      float: left;
-      border: 1px dashed #000;
-      font: 30px sans-serif;
-      text-align: center;
-      padding: 60px 0 60px 0;
+      font: bold 35px sans-serif;
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       -khtml-user-select: none;
@@ -55,8 +56,8 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   </script>
 </head>
 <body>
-  <div id="gameboard">
-  </div>
+  <table id="gameboard">
+  </table>
 
   <script>
   var VERSION = 1;
@@ -148,7 +149,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     return {'words': indexes, 'assignments': assignments};
   }
 
-    var gameBoardDiv = document.getElementById("gameboard");
+    var gameBoard = document.getElementById("gameboard");
     var wordArrayMap = [];
     var assignments = [];
     var isKey = false;
@@ -157,28 +158,37 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       wordArrayMap = gameState['words'];
       assignments = gameState['assignments'];
       isKey = true;
-      gameBoardDiv.className = getFirstTeam(assignments);
+      gameBoard.className = getFirstTeam(assignments);
     } else {
       wordArrayMap = getRandomIndexes(allNames.length);
       assignments = getRandomAssignments();
     }
 
     var index;
+    var currentRow;
     for (index = 0; index < 25 ; index++) {
-      var nameElement = document.createTextNode(allNames[wordArrayMap[index]]);
-      var nameDiv = document.createElement("div");
-      nameDiv.appendChild(nameElement);
-      nameDiv.className = "nameSpace " + ASSIGNMENT_MAP[assignments[index]];
-      if (isKey) {
-        nameDiv.className += " selected";
+
+      // 5 elements per row, then start a new one
+      var column = index % 5;
+      if (column === 0) {
+        currentRow = document.createElement("tr");
+        gameBoard.appendChild(currentRow);
       }
-      nameDiv.onclick = function(ev) {
+
+      var nameElement = document.createTextNode(allNames[wordArrayMap[index]]);
+      var nameCell = document.createElement("td");
+      nameCell.appendChild(nameElement);
+      nameCell.className = "nameSpace " + ASSIGNMENT_MAP[assignments[index]];
+      if (isKey) {
+        nameCell.className += " selected";
+      }
+      nameCell.onclick = function(ev) {
 	if (ev.currentTarget.className.indexOf("selected") < 0 ) {
 	  ev.currentTarget.className += " selected";
 	}
       };
 
-      gameBoardDiv.appendChild(nameDiv);
+      currentRow.appendChild(nameCell);
     }
 
     if (!isKey) {
@@ -187,7 +197,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       qrcodeElement.title = "";
       qrcodeElement.id = "qrcode";
       qrcodeElement.className = "hidden";
-      gameBoardDiv.appendChild(qrcodeElement);
+      document.body.appendChild(qrcodeElement);
 
       var viewText = document.createTextNode("Spoiler Link"); 
       var viewLink = document.createElement("a");

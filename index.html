@@ -60,7 +60,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   </table>
 
   <script>
-  var VERSION = 1;
+  var VERSION = 2;
   var ASSIGNMENT_MAP = ["red", "blue", "yellow", "lost"];
 
   var allNames = [
@@ -108,9 +108,9 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   }
 
   function getStateHash(words, assignments) {
-    var hash = VERSION + "|";
+    var hash = VERSION + "_";
     hash += words.join(",");
-    hash += "|";
+    hash += "_";
     hash += assignments.join(",");
     return hash;
   }
@@ -129,9 +129,9 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     }
   }
 
-  // Game state string is VERSION|wordindexlist|assignmentindexlist
+  // Game state string is VERSION_wordindexlist_assignmentindexlist
   function getGameState(hash) {
-    var result = hash.split("#")[1].split("|");
+    var result = hash.split("#")[1].split("_");
     if (result.length != 3) {
       throw "incorrectly formatted game state";
     }
